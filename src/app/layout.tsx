@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/context/ThemeContext"; 
 import localFont from "next/font/local";
 import Header from "@/components/Header";
+import AuthSession from "@/components/AuthSession"; 
 import "./globals.css";
-
 
 const pretendard = localFont({
   src: "../../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
   display: "swap",
-  variable: "--font-pretendard", // CSS 변수 이름 설정
+  variable: "--font-pretendard",
 });
-
 
 export const metadata: Metadata = {
   title: "Keepic",
@@ -23,11 +22,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body>
+    <html lang="ko" className={pretendard.variable}>
+      <body className="font-pretendard">
         <ThemeProvider>
-          <Header />
-          {children}
+          {/* AuthSession이 로그인 상태를 전역으로 관리*/}
+          <AuthSession> 
+            <Header />
+            {children}
+          </AuthSession>
         </ThemeProvider>
       </body>
     </html>

@@ -11,8 +11,8 @@ export default function HomePage() {
   const categories = [
     { label: '전체', value: 'all' },
     { label: '동물', value: 'animal' },
-    { label: '음식', value: 'korean food' },
-    { label: '서울', value: 'seoul' }
+    { label: '음식', value: 'food' },
+    { label: '꽃', value: 'flower' }
   ];
 
   useEffect(() => {
@@ -29,15 +29,15 @@ export default function HomePage() {
   }, [hasMore, loading]);
 
   return (
-    <main className="container mx-auto px-4 py-8">
+    <main className="container mx-auto px-4">
       {/* 탭 메뉴 */}
-      <div className="flex gap-2 mb-10 overflow-x-auto pb-4 no-scrollbar">
+      <div className="sticky top-[65px] py-[10px] mt-4 bg-white z-40 w-full flex gap-2 overflow-x-auto no-scrollbar">
         {categories.map((cat) => (
           <button
             key={cat.value}
             onClick={() => setCategory(cat.value)}
-            className={`px-6 py-2 rounded-full border transition-all whitespace-nowrap ${
-              category === cat.value ? 'bg-black text-white' : 'bg-white text-gray-600'
+            className={`px-6 py-2 rounded-full border border-sub-green transition-all whitespace-nowrap ${
+              category === cat.value ? 'bg-main-green text-white border-none' : 'bg-white text-sub-green'
             }`}
           >
             {cat.label}
