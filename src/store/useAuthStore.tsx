@@ -6,7 +6,7 @@ interface AuthState {
   user: User | null;
   isLoggedIn: boolean;
   isLoading: boolean;
-  login: () => Promise<void>;
+  login: () => Promise<User | undefined>;
   logout: () => Promise<void>;
   setUser: (user: User | null) => void;
 }
@@ -26,9 +26,15 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      set({ user: result.user, isLoggedIn: true });
+      set({ 
+        user: result.user, 
+        isLoggedIn: true, 
+        isLoading: false 
+      });
+      return result.user;
     } catch (error) {
       console.error("로그인 에러:", error);
+      throw error;
     }
   },
 

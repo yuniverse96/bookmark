@@ -16,5 +16,5 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 export const auth = getAuth(app);
-export const db = getFirestore(app); // 나중에 북마크 저장할 때 쓸 DB
+export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();

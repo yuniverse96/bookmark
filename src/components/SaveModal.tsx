@@ -1,9 +1,12 @@
 "use client";
+
 import { useSaveStore } from '@/store/useSaveStore';
+import { useSaveImage } from '@/hooks/useSaveImage';
 import { useState } from 'react';
 
 export default function SaveModal() {
   const { isOpen, imageData, closeSaveModal } = useSaveStore();
+  const { categories, createCategory, saveImage } = useSaveImage(isOpen);
   const [newCategory, setNewCategory] = useState('');
   const [isCreating, setIsCreating] = useState(false);
 
@@ -13,6 +16,20 @@ export default function SaveModal() {
     closeSaveModal();      // Zustand 스토어 닫기
   };
 
+  const handleSave = async (catName: string) => {
+    if (!imageData) return;
+  
+    const success = await saveImage(catName, {
+      imageUrl: imageData.imageUrl,
+      title: imageData.title
+    });
+  
+    if (success) {
+      alert(`${catName}에 저장되었습니다!`);
+      closeSaveModal();
+    }
+  };
+  
   // 모달이 닫혀있으면 아무것도 렌더링하지 않음
   if (!isOpen || !imageData) return null;
 
@@ -49,8 +66,9 @@ export default function SaveModal() {
                   <button
                     className="bg-sub-green text-white px-4 py-2 rounded-xl text-sm font-bold"
                     onClick={() => {// 여기에 Firestore 로직 추가
-                      setIsCreating(false);
-                      setNewCategory('');
+                        createCategory(newCategory);
+                        setIsCreating(false);
+                        setNewCategory('');
                     }}
                   >
                     생성
@@ -69,16 +87,26 @@ export default function SaveModal() {
             <div className="categories">
               <p className="text-xs font-bold text-sub-green px-1 uppercase tracking-wider">내 카테고리</p>
               <div className="my-4 ">
-                {/* 실제로는 여기서 categories.map()을 돌릴 거예요 */}
-                {['여행', '인테리어', '배경화면'].map((cat) => (
-                  <button
-                    key={cat}
-                    className="w-full text-left py-2 px-4 hover:bg-main-green hover:text-white rounded-xl transition-colors font-medium flex justify-between items-center group"
-                  >
-                    <span>{cat}</span>
-                    <span className="text-xs text-white opacity-0 group-hover:opacity-100 font-bold">저장</span>
-                  </button>
-                ))}
+
+              {categories.length > 0 ? (
+                    //카테고리 있을때
+                    categories.map((cat) => (
+                    <button
+                        key={cat.id}
+                        onClick={() => handleSave(cat.name)}
+                        className="w-full text-left py-2 px-4 hover:bg-main-green hover:text-white rounded-xl transition-colors font-medium flex justify-between items-center group"
+                    >
+                        <span>{cat.name}</span>
+                        <span className="text-xs text-white opacity-0 group-hover:opacity-100 font-bold">저장</span>
+                    </button>
+                    ))
+                ) : (
+                    //카테고리가 없을 때
+                    <div className="py-8 text-center">
+                        <p className="text-gray-400 text-sm font-medium">생성된 카테고리가 없어요.</p>
+                        <p className="text-gray-300 text-xs mt-1">새 카테고리를 만들어보세요! ✨</p>
+                    </div>
+                )}
               </div>
             </div>
           
