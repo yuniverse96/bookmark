@@ -29,6 +29,12 @@
   --foreground: #ffffff;
 }
 
+@layer components {
+  .btn-close {
+    @apply size-[20px] bg-[url('/images/close.png')] bg-contain bg-no-repeat bg-center transition-opacity;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

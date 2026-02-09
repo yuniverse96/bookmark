@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/context/ThemeContext"; 
 import localFont from "next/font/local";
 import Header from "@/components/Header";
+import SaveModal from '@/components/SaveModal';
 import AuthSession from "@/components/AuthSession"; 
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           <AuthSession> 
             <Header />
             {children}
+            <SaveModal />
           </AuthSession>
         </ThemeProvider>
       </body>

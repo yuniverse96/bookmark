@@ -16,7 +16,7 @@ export function usePixabayImages(initialCategory = 'gyeongju') {
       // category가 '전체'면 'all'로 검색하게 설정
       const searchTerm = category === '전체' ? 'all' : category;
       
-      const url = `https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(searchTerm)}&image_type=photo&page=${page}&per_page=20`;
+      const url = `https://pixabay.com/api/?key=${API_KEY}&q=${encodeURIComponent(searchTerm)}&image_type=photo&page=${page}&oder=popular&per_page=20`;
 
       const res = await fetch(url);
       const data = await res.json();

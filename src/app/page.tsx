@@ -36,8 +36,8 @@ export default function HomePage() {
           <button
             key={cat.value}
             onClick={() => setCategory(cat.value)}
-            className={`px-6 py-2 rounded-full border border-sub-green transition-all whitespace-nowrap ${
-              category === cat.value ? 'bg-main-green text-white border-none' : 'bg-white text-sub-green'
+            className={`px-6 py-2 rounded-full border  transition-all whitespace-nowrap ${
+              category === cat.value ? 'bg-main-green text-white border-main-green' : 'bg-white border-sub-green text-sub-green'
             }`}
           >
             {cat.label}
