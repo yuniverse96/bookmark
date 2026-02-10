@@ -7,9 +7,11 @@ interface ImageCardProps {
   imageUrl: string;
   title: string;
   size: 'square' | 'vertical';
+  btnName : 'save'| 'remove';
+  onAction?: () => void;
 }
 
-export default function ImageCard({ imageUrl, title, size }: ImageCardProps) {
+export default function ImageCard({ imageUrl, title, size, btnName = 'save', onAction }: ImageCardProps) {
   const { isLoggedIn, login } = useAuthStore();
   const openSaveModal = useSaveStore((state) => state.openSaveModal);
   const aspectClass = size === 'square' ? 'aspect-square' : 'aspect-[2/3]';
@@ -17,24 +19,33 @@ export default function ImageCard({ imageUrl, title, size }: ImageCardProps) {
   const [isTouched, setIsTouched] = useState(false);
 
 
-  const handleSaveClick = async (e: React.MouseEvent) => {
-    e.stopPropagation(); 
-    //로그인 여부 체크
-    if (!isLoggedIn) {
-      if (confirm("로그인이 필요한 기능입니다. 로그인하시겠습니까?")) {
-        try {
-          await login(); 
-          openSaveModal({ imageUrl, title }); 
-        } catch (error) {
-          console.error("로그인 중 오류가 발생했습니다.", error);
-        }
-      }
-      return;
-    }
-    // 모달 열기
-    openSaveModal({ imageUrl, title });
-  };
+  const handleButtonClick = async (e: React.MouseEvent) => {
+    e.stopPropagation();
 
+    // 1. save 버튼일 때
+    if (btnName === 'save') {
+        //로그인 여부 체크
+        if (!isLoggedIn) {
+          if (confirm("로그인이 필요한 기능입니다. 로그인하시겠습니까?")) {
+            try {
+              await login(); 
+              openSaveModal({ imageUrl, title }); 
+            } catch (error) {
+              console.error("로그인 중 오류가 발생했습니다.", error);
+            }
+          }
+          return;
+        }
+        // 모달 열기
+        openSaveModal({ imageUrl, title });
+    } 
+    // 2. remove 버튼일 때
+    else if (btnName === 'remove') {
+      if (confirm("정말 삭제하시겠습니까?") && onAction) {
+        onAction();
+      }
+    }
+  };
 
 
   return (
@@ -59,10 +70,10 @@ export default function ImageCard({ imageUrl, title, size }: ImageCardProps) {
         >
           <div className="flex justify-end">
           <button 
-              onClick={handleSaveClick}
+              onClick={handleButtonClick}
               className="bg-sub-green text-white px-4 py-2 rounded-full text-xs font-bold"
             >
-              save
+              {btnName}
             </button>
           </div>
         </div>

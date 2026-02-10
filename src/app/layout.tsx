@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import Header from "@/components/Header";
 import SaveModal from '@/components/SaveModal';
 import AuthSession from "@/components/AuthSession"; 
+import GoTop from "@/components/GoTop";
 import "./globals.css";
 
 const pretendard = localFont({
@@ -28,9 +29,10 @@ export default function RootLayout({
         <ThemeProvider>
           {/* AuthSession이 로그인 상태를 전역으로 관리*/}
           <AuthSession> 
-            <Header />
-            {children}
-            <SaveModal />
+              <Header />
+              {children}
+              <GoTop/>
+              <SaveModal />
           </AuthSession>
         </ThemeProvider>
       </body>

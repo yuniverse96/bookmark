@@ -17,7 +17,9 @@ export default function Header() {
                
                 <nav className="relative"> 
                     <ul className="flex gap-6 text-sm font-medium items-center text-main-green">
-                        <li className="hover:text-sub-green cursor-pointer">bookmark</li>
+                        <li className="hover:text-sub-green cursor-pointer">
+                            <Link href="/bookmark">bookmark</Link>
+                        </li>
                         <li>
                             <AuthControl />
                         </li>

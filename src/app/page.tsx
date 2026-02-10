@@ -53,6 +53,7 @@ export default function HomePage() {
             imageUrl={item.webformatURL}
             title={item.tags}
             size={idx % 3 === 0 ? "vertical" : "square"}
+            btnName='save'
           />
         ))}
       </div>
